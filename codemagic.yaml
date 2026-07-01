@@ -6,7 +6,8 @@ workflows:
     scripts:
       - name: Generate Gradle Wrapper
         script: |
-          gradle wrapper
+          # Force generation of the exact Gradle version your app needs
+          gradle wrapper --gradle-version 9.3.1
           chmod +x gradlew
       - name: Build Android APK
         script: |
