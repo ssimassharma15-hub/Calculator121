@@ -27,11 +27,11 @@ jobs:
         with:
           gradle-version: '9.3.1' 
 
-      # Google services file config
+      # Google services file mein aapka exact package name 'com.aistudio.calculator.vymkqb' daal diya hai
       - name: Create Dummy google-services.json
         run: |
           mkdir -p app/
-          echo '{"project_info":{"project_number":"1234567890","project_id":"dummy-project"},"client":[{"client_info":{"mobilesdk_app_id":"1:1234567890:android:abcdef","android_client_info":{"package_name":"com.aistudio.calculator.wqgztb"}},"api_key":[{"current_key":"dummy_api_key_123456789"}]}]}' > app/google-services.json
+          echo '{"project_info":{"project_number":"1234567890","project_id":"dummy-project"},"client":[{"client_info":{"mobilesdk_app_id":"1:1234567890:android:abcdef","android_client_info":{"package_name":"com.aistudio.calculator.vymkqb"}},"api_key":[{"current_key":"dummy_api_key_123456789"}]}]}' > app/google-services.json
 
       # Keystore setup
       - name: Generate Debug Keystore
@@ -41,6 +41,14 @@ jobs:
           mkdir -p app/src/debug/
           cp debug.keystore app/src/debug/debug.keystore
 
-      # Maine yahan se galat task hatakar command ko ekdam perfect kar diya hai
+      # Build Process
       - name: Build Debug APK
         run: gradle assembleDebug -x validateSigningDebug --stacktrace
+
+      # Finished APK Upload karna
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
