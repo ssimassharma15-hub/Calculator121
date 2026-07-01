@@ -3,12 +3,10 @@ workflows:
     name: Android Calculator Build
     max_build_duration: 15
     instance_type: mac_mini_m1
-    environment:
-      android_sdk: latest
     scripts:
       - name: Generate Gradle Wrapper
         script: |
-          # Use the pre-installed system gradle to generate the gradlew files locally
+          # Use the pre-installed system gradle tool to generate the project files
           gradle wrapper
           chmod +x gradlew
       - name: Build Android APK
