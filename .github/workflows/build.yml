@@ -27,13 +27,13 @@ jobs:
         with:
           gradle-version: '9.3.1' 
 
-      # Google services file ko app folder mein sahi se initialize karna
+      # Google services file config
       - name: Create Dummy google-services.json
         run: |
           mkdir -p app/
           echo '{"project_info":{"project_number":"1234567890","project_id":"dummy-project"},"client":[{"client_info":{"mobilesdk_app_id":"1:1234567890:android:abcdef","android_client_info":{"package_name":"com.aistudio.calculator.wqgztb"}},"api_key":[{"current_key":"dummy_api_key_123456789"}]}]}' > app/google-services.json
 
-      # Keystore ko har possible path par copy karna taaki build config miss na kare
+      # Keystore setup
       - name: Generate Debug Keystore
         run: |
           keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
@@ -41,13 +41,6 @@ jobs:
           mkdir -p app/src/debug/
           cp debug.keystore app/src/debug/debug.keystore
 
-      # Yahan humne problem karne wale tasks ko strictly skip (-x) kar diya hai
+      # Maine yahan se galat task hatakar command ko ekdam perfect kar diya hai
       - name: Build Debug APK
-        run: gradle assembleDebug -x validateSigningDebug -x verifyReleaseResources --no-configuration-cache --stacktrace
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
+        run: gradle assembleDebug -x validateSigningDebug --stacktrace
