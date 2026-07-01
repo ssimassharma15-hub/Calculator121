@@ -3,7 +3,7 @@ name: Android APK Build
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # Isse aap jab chahein khud button daba kar bhi build shuru kar sakte hain
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -19,6 +19,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
+
+    # Yeh step naya 'gradlew' create karega agar aapke project mein nahi hai toh
+    - name: Generate Gradle Wrapper
+      run: gradle wrapper --gradle-version 8.5
 
     - name: Grant Execute Permission to Gradlew
       run: chmod +x gradlew
