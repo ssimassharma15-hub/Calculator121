@@ -1,0 +1,6 @@
+{
+  "name": "Calculator",
+  "description": "A visually polished and highly functional simple calculator app built with Jetpack Compose.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
