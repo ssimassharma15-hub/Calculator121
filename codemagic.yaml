@@ -4,11 +4,14 @@ workflows:
     max_build_duration: 15
     instance_type: mac_mini_m1
     scripts:
-      - name: Generate Gradle Wrapper
+      - name: Generate Gradle Wrapper & Debug Keystore
         script: |
           # Force generation of the exact Gradle version your app needs
           gradle wrapper --gradle-version 9.3.1
           chmod +x gradlew
+          
+          # Create an automatic dummy debug keystore so the build doesn't fail
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
       - name: Build Android APK
         script: |
           ./gradlew assembleDebug
