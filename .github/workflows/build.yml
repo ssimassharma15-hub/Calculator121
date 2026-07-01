@@ -27,18 +27,18 @@ jobs:
         with:
           gradle-version: '9.3.1' 
 
-      # Google services file ko create karna (Sahi package name ke sath)
+      # Google services file ko app folder ke andar sahi se banana
       - name: Create Dummy google-services.json
         run: |
           mkdir -p app/
           echo '{"project_info":{"project_number":"1234567890","project_id":"dummy-project"},"client":[{"client_info":{"mobilesdk_app_id":"1:1234567890:android:abcdef","android_client_info":{"package_name":"com.aistudio.calculator.wqgztb"}},"api_key":[{"current_key":"dummy_api_key_123456789"}]}]}' > app/google-services.json
 
-      # Keystore ko root folder mein generate karna (pichle error ko fix karne ke liye)
-      - name: Generate Debug Keystore
+      # Is step mein hum temporary key ko dono folders (root aur app) mein daal rahe hain taaki error ka koi chance hi na bache!
+      - name: Generate Debug Keystore in Multiple Locations
         run: |
           keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
+          cp debug.keystore app/debug.keystore
 
-      # Yahan hum direct gradle assembleDebug chala rahe hain jo setup-gradle ke sath chalta hai
       - name: Build Debug APK
         run: gradle assembleDebug --stacktrace
 
