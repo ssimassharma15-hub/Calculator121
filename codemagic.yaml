@@ -10,8 +10,8 @@ workflows:
           gradle wrapper --gradle-version 9.3.1
           chmod +x gradlew
           
-          # Create an automatic dummy debug keystore so the build doesn't fail
-          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          # Create an automatic dummy debug keystore safely without prompt
+          keytool -genkey -v -noprompt -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
       - name: Build Android APK
         script: |
           ./gradlew assembleDebug
